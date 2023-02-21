@@ -11,9 +11,7 @@ log = collections.deque([], log_max)
 data_unit = 'mb'
 font_config = weasyprint.text.fonts.FontConfiguration()
 
-pid = os.getpid()
-mem = psutil.Process(pid).memory_full_info()
-fields = [field for field in mem._fields]
+fields = ['rss', 'vms', 'uss', 'swap']
 
 words = 'all work and no play makes jack a dull boy'.split(' ')
 words = words + words + words
@@ -57,7 +55,7 @@ def index():
         'output': output,
     }
     for field in fields:
-        entry[field] = round(getattr(mem, field) / 1000000)
+        entry[field] = round(getattr(mem, field, 0) / 1000000)
     log.appendleft(entry)
 
     if context['output'] == 'pdf':
