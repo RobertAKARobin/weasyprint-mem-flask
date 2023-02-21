@@ -1,1 +1,1 @@
-web: waitress-serve server:app --workers=1
+web: waitress-serve server:app
