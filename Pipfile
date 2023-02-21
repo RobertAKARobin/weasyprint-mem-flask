@@ -8,7 +8,7 @@ flask = "*"
 weasyprint = "*"
 psutil = "*"
 importlib-metadata = "*"
-gunicorn = "*"
+waitress = "*"
 
 [dev-packages]
 
