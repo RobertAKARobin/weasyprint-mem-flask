@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Weasyprint Memory Test</title>
+		<style>
+* {
+	font-family: monospace;
+}
+
+.pdf__frame {
+	height: 300px;
+	width: 100%;
+}
+
+.log {
+	box-sizing: border-box;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+}
+
+tr:nth-child(even) {
+	background-color: #eee;
+}
+
+td, th {
+	border: 0;
+	padding: 5px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+	main {
+		flex-direction: column;
+	}
+}
+
+@media (min-width: 601px) {
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 90vh;
+	}
+
+	main {
+		display: flex;
+		flex-grow: 1;
+	}
+
+	.pdf {
+		flex-shrink: 0;
+		width: 200px;
+	}
+
+	.log {
+		border-left: 2px solid #ccc;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		justify-content: flex-start;
+		margin-left: 20px;
+		padding-left: 20px;
+	}
+}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Weasyprint Memory Test</h1>
+
+			<p>The purpose of this is to explore <a href="https://github.com/Kozea/WeasyPrint/issues/1496">a possible memory leak in Weasyprint</a>. Use the links below to render HTML (this page) and/or render and generate a PDF.</p>
+
+			<p><a href="https://github.com/RobertAKARobin/weasyprint-mem">GitHub source</a></p>
+		</header>
+
+		<main>
+			<div class="pdf">
+				<h2>PDF</h2>
+				{% if showpdf %}
+					<p><a href="?showpdf=1">Regenerate PDF (refresh page)</a></p>
+					<p><a href="?output=pdf">Regenerate PDF in its own window</a></p>
+					<p><a href="?">Hide PDF</a></p>
+					<iframe class="pdf__frame" src="?output=pdf"></iframe>
+				{% else %}
+					<p><a href="?showpdf=1">Generate PDF in iframe</a></p>
+					<p><a href="?output=pdf">Generate PDF in its own window</a></p>
+				{% endif %}
+			</div>
+
+			<div class="log">
+				<h2>Last &lt;{{ log_max }} memory readings from psutil</h2>
+
+				<p>The memory is measured at the <em>start</em> of each request. This log is cleared whenever the Heroku dyno restarts.</p>
+
+				<table>
+					<tr>
+						<th></th>
+						<th>type</th>
+						<th>date</th>
+						{% for field in fields %}
+							<th>{{ field }}</th>
+						{% endfor %}
+					</tr>
+					{% for entry in log %}
+						<tr>
+							<td>{{ loop.index }}.</td>
+							<td>{{ entry.output }}</td>
+							<td>{{ entry.time.strftime('%y/%m/%d %H:%I:%S') }}</td>
+							{% for field in fields %}
+								<td>{{ entry[field] }}{{ data_unit }}</td>
+							{% endfor %}
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</main>
+	</body>
+</html>
