@@ -74,7 +74,7 @@ td, th {
 
 			<p>The purpose of this is to explore <a href="https://github.com/Kozea/WeasyPrint/issues/1496">a possible memory leak in Weasyprint</a>. Use the links below to render HTML (this page) and/or render and generate a PDF.</p>
 
-			<p><a href="https://github.com/RobertAKARobin/weasyprint-mem">GitHub source</a></p>
+			<p><a href="https://github.com/RobertAKARobin/weasyprint-mem-flask">GitHub source</a></p>
 		</header>
 
 		<main>
