@@ -8,6 +8,7 @@ flask = "*"
 weasyprint = "*"
 psutil = "*"
 importlib-metadata = "*"
+gunicorn = "*"
 
 [dev-packages]
 
