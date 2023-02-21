@@ -1,6 +1,5 @@
 import collections
 import datetime
-import gc
 import os
 
 import flask
@@ -29,7 +28,6 @@ app = flask.Flask(__name__)
 
 @app.route("/")
 def index():
-    gc.collect()
     pid = os.getpid()
     mem = psutil.Process(pid).memory_full_info()
     now = datetime.datetime.now()
